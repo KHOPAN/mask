@@ -1,20 +1,27 @@
-<div>Teachable Machine Image Model</div>
-<button type="button" onclick="init()">Start</button>
-<div id="webcam-container"></div>
-<div id="label-container"></div>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-<script type="text/javascript">
-    // More API functions here:
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Teachable Machine Example</title>
+	</head>
+	<body>
+		<p>Teachable Machine Image Model</p>
+		<button type="button" onclick="initilize()">Start</button>
+		<div id="webcam-container"></div>
+		<div id="label-container"></div>
+		<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+		<script type="text/javascript">
+			// More API functions here:
     // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
     // the link to your model provided by Teachable Machine export panel
-    const URL = "./my_model/";
+    const URL = "https://teachablemachine.withgoogle.com/models/N0bgF7z11/";
 
     let model, webcam, labelContainer, maxPredictions;
 
     // Load the image model and setup the webcam
-    async function init() {
+    async function initilize() {
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
 
@@ -56,4 +63,6 @@
             labelContainer.childNodes[i].innerHTML = classPrediction;
         }
     }
-</script>
+		</script>
+	</body>
+</html>
