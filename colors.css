@@ -1,0 +1,31 @@
+body {
+	background-color: #202020;
+}
+
+p,
+button {
+	color: #FFFFFF;
+	font-family: "Consolas";
+	font-weight: bold;
+}
+
+button {
+	width: 5em;
+	height: 2em;
+	border-style: solid;
+	border-radius: 0.4em;
+	border-color: #353535;
+	background-color: #2D2D2D;
+	color: #FFFFFF;
+	transition: all 0.1s;
+}
+
+button:hover {
+	background-color: #323232;
+}
+
+button:active {
+	border-color: #303030;
+	background-color: #272727;
+	color: #CECECE;
+}
