@@ -7,10 +7,15 @@ button {
 	color: #FFFFFF;
 	font-family: "Consolas";
 	font-weight: bold;
+	font-size: 1em;
 }
 
 button {
-	width: 5em;
+	min-width: 5em;
+	width: fit-content;
+	padding-left: 0.8em;
+	padding-right: 0.8em;
+	font-size: 0.82em;
 	height: 2em;
 	border-style: solid;
 	border-radius: 0.4em;
