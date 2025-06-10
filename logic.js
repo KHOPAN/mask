@@ -1,3 +1,74 @@
-function startModel() {
+const PATH_MODEL = "https://teachablemachine.withgoogle.com/models/N0bgF7z11/model.json";
+const PATH_METADATA = "https://teachablemachine.withgoogle.com/models/N0bgF7z11/metadata.json";
 
+let started = false;
+let label = null;
+let model = null;
+let cases = 0;
+let webcam = null;
+
+async function startModel() {
+	if(started) {
+		console.error("Camera already started.");
+		alert("Error: The camera has already been started.");
+		return;
+	}
+
+	started = true;
+	label = document.getElementById("label");
+	model = await tmImage.load(PATH_MODEL, PATH_METADATA);
+
+	if(model == null) {
+		console.error("'model' is null.");
+		alert("Error: The variable 'model' is null.");
+		return;
+	}
+
+	for(let i = 0; i < (cases = model.getTotalClasses()); i++) {
+		label.appendChild(document.createElement("p"));
+	}
+
+	webcam = new tmImage.Webcam(200, 200, true);
+	await webcam.setup();
+	await webcam.play();
+	window.requestAnimationFrame(callback);
+	document.getElementById("webcam").appendChild(webcam.canvas);
+}
+
+async function callback() {
+	if(!started || label == null || model == null || cases <= 0 || webcam == null) {
+		console.error("No, this is not right. Why is everything null?");
+		window.requestAnimationFrame(callback);
+		return;
+	}
+
+	webcam.update();
+	let result = await model.predict(webcam.canvas);
+
+	if(result == null || !Array.isArray(result)) {
+		window.requestAnimationFrame(callback);
+		return;
+	}
+
+	let longest = 0;
+	let highestProbability = 0.0;
+	let highestProbabilityElement = null;
+
+	for(let i = 0; i < cases; i++) {
+		longest = Math.max(longest, result[i].className.length);
+
+		if(result[i].probability > highestProbability) {
+			highestProbability = result[i].probability;
+			highestProbabilityElement = label.childNodes[i];
+		}
+	}
+
+	for(let i = 0; i < cases; i++) {
+		let approximate = result[i].probability.toFixed(3);
+		let integer = Math.round(approximate * 100.0);
+		label.childNodes[i].innerHTML = result[i].className + ("&nbsp".repeat(longest - result[i].className.length + 1)) + ": " + approximate + " - " + ("&nbsp".repeat(Math.max(0, 2 - Math.floor(Math.log10(Math.max(1, integer)))))) + integer + "%";
+		label.childNodes[i].style.color = label.childNodes[i] == highestProbabilityElement ? "#0E9FFF" : "#FFFFFF";
+	}
+
+	window.requestAnimationFrame(callback);
 }

@@ -29,3 +29,7 @@ button:active {
 	background-color: #272727;
 	color: #CECECE;
 }
+
+#webcam {
+	margin-top: 1em;
+}
