@@ -66,7 +66,7 @@ async function callback() {
 		let approximate = result[i].probability.toFixed(3);
 		let integer = Math.round(approximate * 100.0);
 		label.childNodes[i].innerHTML = result[i].className + ("&nbsp".repeat(longest - result[i].className.length + 1)) + ": " + approximate + " - " + ("&nbsp".repeat(Math.max(0, 2 - Math.floor(Math.log10(Math.max(1, integer)))))) + integer + "%";
-		label.childNodes[i].style.color = (label.childNodes[i] == highestProbabilityElement) ? "#0E9FFF" : "#FFFFFF";
+		label.childNodes[i].id = (label.childNodes[i] == highestProbabilityElement) ? "predicted" : "";
 	}
 
 	window.requestAnimationFrame(callback);
