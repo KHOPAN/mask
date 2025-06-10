@@ -1,5 +1,5 @@
-const PATH_MODEL = "https://teachablemachine.withgoogle.com/models/N0bgF7z11/model.json";
-const PATH_METADATA = "https://teachablemachine.withgoogle.com/models/N0bgF7z11/metadata.json";
+const PATH_MODEL = "https://raw.githubusercontent.com/KHOPAN/mask/refs/heads/main/internal/model.json";
+const PATH_METADATA = "https://raw.githubusercontent.com/KHOPAN/mask/refs/heads/main/internal/metadata.json";
 
 let started = false;
 let label = null;
@@ -16,10 +16,9 @@ async function startModel() {
 
 	started = true;
 	label = document.getElementById("label");
-	model = await tmImage.load(PATH_MODEL, PATH_METADATA);
 
-	if(model == null) {
-		console.error("'model' is null.");
+	if((model = await tmImage.load(PATH_MODEL, PATH_METADATA)) == null) {
+		console.error("Variable 'model' is null.");
 		alert("Error: The variable 'model' is null.");
 		return;
 	}
@@ -67,7 +66,7 @@ async function callback() {
 		let approximate = result[i].probability.toFixed(3);
 		let integer = Math.round(approximate * 100.0);
 		label.childNodes[i].innerHTML = result[i].className + ("&nbsp".repeat(longest - result[i].className.length + 1)) + ": " + approximate + " - " + ("&nbsp".repeat(Math.max(0, 2 - Math.floor(Math.log10(Math.max(1, integer)))))) + integer + "%";
-		label.childNodes[i].style.color = label.childNodes[i] == highestProbabilityElement ? "#0E9FFF" : "#FFFFFF";
+		label.childNodes[i].style.color = (label.childNodes[i] == highestProbabilityElement) ? "#0E9FFF" : "#FFFFFF";
 	}
 
 	window.requestAnimationFrame(callback);
